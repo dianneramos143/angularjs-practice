@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <script src="angular.min.js"></script>
     <script src="app.js"></script>
-    <style> body { font-size: 1.2em; }</style>
-    <title>Expressions and Interpolation</title>
+    <title>Expressions and Interpolation with Filters</title>
 </head>
 <body>
-    <h1>Expressions and Interpolation</h1>
+    <h1>Expressions and Interpolation with Filters</h1>
     <div ng-controller='MsgController'>
-        {{name}} has a message for you : <br>
-        {{sayMessage()}}    
-    <div>
-        <button ng-click="showKaren()">Show Karen</button>
-        <br>
-        <img ng-src="images/{{stateOfBeing}}.jpg">
+        {{name}} has a message for you.<br>
+        {{sayMessage()}}<br>
+        {{sayLovesMessage()}}<br>
+        Truth: {{sayLovesMessage() | truth : "water" : "coffee" }} <br>
+        Big Truth: {{sayLovesMessage() | truth : "water" : "coffee" | uppercase }} <br>
+        <button ng-click="drink()">Drink</button><br> Cost: {{drinkCost | currency:"PhP"}}<br>
+        <img ng-src="images/coffee-{{stateOfBeing}}.jpg">
     </div>
-</div>
 </body>
 </html>

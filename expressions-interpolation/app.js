@@ -1,20 +1,49 @@
 (function (){
-'use strict';
+'use script';
 
-angular.module('MsgApp',[])
-.controller('MsgController', MsgController);
+angular.module('MsgApp', [])
+.controller('MsgController', MsgController)
+.filter('loves', LovesFilter)
+.filter('truth', TruthFilter)
 
-MsgController.$inject = ['$scope'];
-function MsgController($scope) {
+MsgController.$inject= ['$scope', 'lovesFilter'];
+
+function MsgController ($scope, lovesFilter){
     $scope.name = "Dianne";
-    $scope.stateOfBeing = "lumipad";
-    $scope.sayMessage = function () {
-        return "Dianne likes to code";
-    };
+    $scope.stateOfBeing = "before";
+   
+    $scope.drinkCost = 250;
+    $scope.drink = function (){
+        $scope.stateOfBeing = "after";
+    }
 
-    $scope.showKaren = function () {
-        $scope.stateOfBeing = "karen";
-    };
+    $scope.sayMessage = function () {
+        return "Dianne likes to drink water and code.";
+    } 
+
+    $scope.sayLovesMessage = function(){
+        var msg = "Dianne likes to drink water and code.";
+        msg = lovesFilter(msg);
+        return msg;
+    }
+}
+
+
+
+function LovesFilter (){
+    return function (input) {
+        input = input || "";
+        input = input.replace("likes", "loves");
+        return input;
+    }
+}
+
+function TruthFilter () {
+    return function (input, target, replace) {
+        input = input || "";
+        input = input.replace(target, replace);
+        return input;
+    }
 }
 
 })();
