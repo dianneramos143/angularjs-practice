@@ -1,13 +1,12 @@
 (function () {
-'use script';
-
 angular.module('ControllerAsApp', [])
 .controller('ShoppingListController1', ShoppingListController1)
 .controller('ShoppingListController2', ShoppingListController2)
 .factory('ShoppingListFactory', ShoppingListFactory);
 
-// LIST #1 - controller
-ShoppingListController1.$inject = ['ShoppingListFactory'];
+
+//List #1 - controller
+ShoppingListController1.$inject=['ShoppingListFactory'];
 function ShoppingListController1(ShoppingListFactory){
     var list1 = this;
 
@@ -18,16 +17,16 @@ function ShoppingListController1(ShoppingListFactory){
     list1.itemName = "";
     list1.itemQuantity = "";
 
-    list1.addItem = function() {
-        shoppingList.addItem(list1.itemName, list1.itemQuantity)
+    list1.addItem = function(){
+        shoppingList.addItem(list1.itemName, list1.itemQuantity);
     }
 
-    list1.removeItem = function () {
+    list1.removeItem = function(itemIndex){
         shoppingList.removeItem(itemIndex);
-    };
+    }
 }
 
-// LIST #1 - controller
+//List #2 - controller
 ShoppingListController2.$inject = ['ShoppingListFactory'];
 function ShoppingListController2(ShoppingListFactory){
     var list2 = this;
@@ -38,49 +37,48 @@ function ShoppingListController2(ShoppingListFactory){
     list2.items = shoppingList.getItems();
     list2.itemName = "";
     list2.itemQuantity = "";
-    
-    list2.addItem = function (){
+
+    list2.addItem = function() {
         try{
             shoppingList.addItem(list2.itemName, list2.itemQuantity);
-        } catch (error) {
+        }catch(error){
             list2.errorMessage = error.message;
         }
     }
 
-    list2.removeItem = function (itemIndex) {
+    list2.removeItem = function(itemIndex){
         shoppingList.removeItem(itemIndex);
-    };
+    }
 }
 
-
-// If not specifiedm maxItems assumed unlimited
+//If not specified maxItems assumed unlimited
 function ShoppingListService(maxItems){
     var service = this;
 
-        //List of shopping items
-        var items = [];
+    //List of Shopping items
+    var items = [];
 
-        service.addItem = function (itemName, quantity) {
-            if ((maxItems === undefined) ||
-                (maxItems !== undefined) && (items.length < maxItems)) {
-                    var item = {
-                        name: itemName,
-                        quantity: quantity
-                    };
-                    items.push(item);
-                }
-                else{
-                    throw new Error("Max items (" + maxItems + ") reached.");
-                }
-        };
 
-        service.removeItem = function (itemIndex){
-            items.splice(itemIndex);
-        };
+    service.addItem = function (itemName, quantity) {
+        if ((maxItems === undefined) ||
+            (maxItems !== undefined) && (items.length < maxItems)) {
+                var item = {
+                    name: itemName,
+                    quantity: quantity
+                };
+                items.push(item);
+            }else{
+                throw new Error("Max items (" + maxItems + ") reached.");
+            }
+    };
 
-        service.getItems = function (){
-            return items;
-        };
+    service.removeItem = function (itemIndex){
+        items.splice(itemIndex);
+    };
+
+    service.getItems = function (){
+        return items;
+    };
 }
 
 function ShoppingListFactory() {
@@ -89,5 +87,4 @@ function ShoppingListFactory() {
     };
     return factory;
 }
-
-})();
+})()
